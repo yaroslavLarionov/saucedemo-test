@@ -1,15 +1,12 @@
 package base;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.After;
+import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import utils.ConfigReader;
 
 import java.lang.reflect.Method;
@@ -22,14 +19,14 @@ public class BaseTest {
 
 
 
-    @BeforeMethod
-    public void setUp(Method method){
+    @Before
+    public void setUp(){
         initializeDriver(ConfigReader.readProperty(filePath, "browser"));
         driver.get(ConfigReader.readProperty(filePath, "url"));
     }
 
-    @AfterMethod
-    public void tearDown(ITestResult result){
+    @After
+    public void tearDown(){
         driver.quit();
     }
 

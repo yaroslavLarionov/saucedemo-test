@@ -1,20 +1,20 @@
 package tests;
 
 import base.BaseTest;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import pages.LoginPage;
 
 public class LoginTest extends BaseTest {
     LoginPage loginPage;
 
-    @BeforeMethod
+    @Before
     public void localSetUp() {
         loginPage = new LoginPage(getDriver());
     }
 
-    @Test (testName = "User Login", description = "Validating if user can successfully login with given credentials")
+   @Test
     public void userLogin() {
         loginPage.usernameField.sendKeys("standard_user");
         loginPage.passwordField.sendKeys("secret_sauce");
