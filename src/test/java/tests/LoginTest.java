@@ -1,15 +1,15 @@
 package tests;
 
 import base.BaseTest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import pages.LoginPage;
 
 public class LoginTest extends BaseTest {
     LoginPage loginPage;
 
-    @Before
+    @BeforeMethod
     public void localSetUp() {
         loginPage = new LoginPage(getDriver());
     }

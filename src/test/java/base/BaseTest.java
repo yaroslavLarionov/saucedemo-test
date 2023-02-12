@@ -1,13 +1,15 @@
 package base;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Before;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import utils.ConfigReader;
 
 import java.lang.reflect.Method;
@@ -20,13 +22,13 @@ public class BaseTest {
 
 
 
-    @Before
+    @BeforeMethod
     public void setUp(){
         initializeDriver(ConfigReader.readProperty(filePath, "browser"));
         driver.get(ConfigReader.readProperty(filePath, "url"));
     }
 
-    @After
+    @AfterMethod
     public void tearDown(){
         driver.quit();
     }
@@ -34,9 +36,6 @@ public class BaseTest {
     public void initializeDriver(String browser){
         driver = null;
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
         switch (browser.toLowerCase()){
             case "chrome":
                 WebDriverManager.chromedriver().setup();
