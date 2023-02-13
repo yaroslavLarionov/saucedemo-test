@@ -36,6 +36,7 @@ public class BaseTest {
     public void initializeDriver(String browser){
         driver = null;
         ChromeOptions options = new ChromeOptions();
+        options.setHeadless(true);
         switch (browser.toLowerCase()){
             case "chrome":
                 WebDriverManager.chromedriver().setup();
