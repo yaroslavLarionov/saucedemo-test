@@ -7,16 +7,24 @@ import java.util.Properties;
 
 public class ConfigReader {
 
-    public static String readProperty(String filePath, String property){
+    public static String getProperty(String property){
         Properties prop = null;
+        FileInputStream fileInput = null;
+        String filePath = "src/test/java/data/config/configuration.properties";
         try{
-            FileInputStream fileInput = new FileInputStream(filePath);
+            fileInput = new FileInputStream(filePath);
             prop = new Properties();
             prop.load(fileInput);
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }catch (IOException e){
             e.printStackTrace();
+        } finally {
+            try {
+                fileInput.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return prop.getProperty(property);
     }

@@ -16,50 +16,50 @@ import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    private WebDriver driver;
-
-    private final String filePath = "src/test/java/data/config/configuration.properties";
-
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
 
     @BeforeMethod
     public void setUp(){
-        initializeDriver(ConfigReader.readProperty(filePath, "browser"));
-        driver.get(ConfigReader.readProperty(filePath, "url"));
+        initializeDriver();
+        getDriver().get(ConfigReader.getProperty("url"));
     }
 
     @AfterMethod
     public void tearDown(){
-        driver.quit();
+        driver.get().quit();
+        driver.remove();
     }
 
-    public void initializeDriver(String browser){
-        driver = null;
+    public static WebDriver getDriver(){
+        return driver.get();
+    }
+
+    public void initializeDriver(){
+        String browser = ConfigReader.getProperty("browser").toLowerCase();
         ChromeOptions options = new ChromeOptions();
         options.setHeadless(true);
         switch (browser.toLowerCase()){
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver(options);
+                driver.set(new ChromeDriver(options));
                 break;
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
+                driver.set(new FirefoxDriver());
                 break;
             case "ie":
                 WebDriverManager.iedriver().setup();
-                driver = new InternetExplorerDriver();
+                driver.set(new InternetExplorerDriver());
                 break;
             default:
                 System.out.println("Wrong browser name was entered");
         }
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+        getDriver().manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        getDriver().manage().window().maximize();
     }
 
-    public WebDriver getDriver(){
-        return driver;
-    }
+
 
 
 }
